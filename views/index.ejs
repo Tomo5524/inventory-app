@@ -8,21 +8,25 @@
     <link rel='stylesheet', href='/stylesheets/style.css'/> 
   </head>
   <body>
-    <h1><%= title %></h1>
-    <div class="col-3">
-      <%- include shop.ejs %>
-      <!-- <% members.forEach(res =>{ %> 
-        <div class='text-left' >
-          <li class="list-group-item"> 
-            <h4><%= res.message %> </h4>
-            <h6><%= res.name %></h6>
-            <p><%= res.added %></p>              
-          </li>
-        </div>
-        <% }); %>    -->
+    <div class="row">
+      <h1><%= title %></h1>
+      <div class="col-3">
+        <!-- <%- include shop.ejs %> -->
+      </div>
+      <div>
+        <p>Welcome to <%= title %></p>
+        <% items.forEach(res =>{ %> 
+          <div class='text-left' >
+            <li class="list-group-item"> 
+              <h4><%= res.brand %> </h4>
+              <h6><%= res.stock %></h6>
+              <p><%= res.price %></p>              
+            </li>
+          </div>
+          <% }); %>   
+      </div>    
     </div>
-    <div>
-      <p>Welcome to <%= title %></p>
-    </div>    
+    
   </body>
 </html>
+
