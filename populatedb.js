@@ -25,31 +25,8 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 var items = [];
 var genres = [];
 
-function itemCreate(brand, category, stock, price, genre, desc, imgUrl, cb) {
-  itemdetail = {
-    brand: brand,
-    category: category,
-    stock: stock,
-    price: price,
-  };
-  if (desc != false) itemdetail.desc = desc;
-  if (genre != false) itemdetail.genre = genre;
-  if (imgUrl != false) itemdetail.imgUrl = imgUrl;
-
-  var item = new Item(itemdetail);
-  item.save(function (err) {
-    if (err) {
-      cb(err, null);
-      return;
-    }
-    console.log("New item: " + item);
-    items.push(item);
-    cb(null, item);
-  });
-}
-
 function genreCreate(name, desc, cb) {
-  var genre = new Genre({ name: name, genre: desc });
+  var genre = new Genre({ name: name, desc: desc });
 
   // if (desc != false) genre.desc = desc;
 
@@ -64,62 +41,30 @@ function genreCreate(name, desc, cb) {
   });
 }
 
-/////////////////// difference between async series and parallel
+function itemCreate(brand, category, stock, price, genre, desc, imgUrl, cb) {
+  var itemdetail = {
+    brand: brand,
+    category: category,
+    stock: stock,
+    price: price,
+  };
+  if (desc) itemdetail.desc = desc;
+  if (genre) itemdetail.genre = genre;
+  if (imgUrl) itemdetail.imgUrl = imgUrl;
 
-function createItems(cb) {
-  async.parallel(
-    [
-      function (callback) {
-        // [genres[1]]
-        itemCreate(
-          "Air Jorgan Chicago 1985",
-          "Sneakers",
-          3,
-          65,
-          "icon of Air Jordan,",
-          callback
-        );
-      },
-      function (callback) {
-        // [genres[0]]
-        itemCreate(
-          "Jabra 75T active",
-          "Ear puds",
-          1,
-          200,
-          "Best Ear puds for workout",
-          callback
-        );
-      },
-      function (callback) {
-        // [genres[2]]
-        itemCreate(
-          "Can't hurt me",
-          "Biography",
-          1,
-          20,
-          "game changer",
-          callback
-        );
-      },
-      // function (callback) {
-      //   bookCreate(
-      //     "Test Book 2",
-      //     "Summary of test book 2",
-      //     "ISBN222222",
-      //     authors[4],
-      //     false,
-      //     callback
-      //   );
-      // },
-    ],
-    // optional callback
-    cb
-  );
+  var item = new Item(itemdetail);
+  item.save(function (err) {
+    if (err) {
+      cb(err, null);
+      return;
+    }
+    console.log("New item: " + item);
+    items.push(item);
+    cb(null, item);
+  });
 }
 
-// name: { type: String, required: true },
-// description: { type: String, required: true },
+/////////////////// difference between async series and parallel
 
 function createGenres(cb) {
   async.series(
@@ -151,110 +96,63 @@ function createGenres(cb) {
   );
 }
 
-// title, summary, isbn, author, genre, cb
-// brand: { type: String, required: true },
-//   category: { type: Schema.Types.ObjectId, required: true, ref: "category" },
-//   stock: { type: Number, required: true },
-//   price: { type: Number, required: true },
-//   description: { type: String, default: "no description" },
-//   imgUrl: { type: String, default: "/images/randomImg.png" },
-// });
+function createItems(cb) {
+  async.parallel(
+    [
+      function (callback) {
+        // [genres[1]]
+        itemCreate(
+          "Air Jorgan Chicago 1985",
+          "Sneakers",
+          3,
+          65,
+          genres[1].name,
+          "icon of Air Jordan,",
+          callback
+        );
+      },
+      function (callback) {
+        // [genres[0]]
+        itemCreate(
+          "Jabra 75T active",
+          "Ear puds",
+          1,
+          200,
+          genres[0].name,
+          "Best Ear puds for workout",
+          callback
+        );
+      },
+      function (callback) {
+        // [genres[2]]
+        itemCreate(
+          "Can't hurt me",
+          "Biography",
+          1,
+          20,
+          genres[2].name,
+          "game changer",
+          callback
+        );
+      },
+      // function (callback) {
+      //   bookCreate(
+      //     "Test Book 2",
+      //     "Summary of test book 2",
+      //     "ISBN222222",
+      //     authors[4],
+      //     false,
+      //     callback
+      //   );
+      // },
+    ],
+    // optional callback
+    cb
+  );
+}
 
-// function createBookInstances(cb) {
-//   async.parallel(
-//     [
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[0],
-//           "London Gollancz, 2014.",
-//           false,
-//           "Available",
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[1],
-//           " Gollancz, 2011.",
-//           false,
-//           "Loaned",
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[2],
-//           " Gollancz, 2015.",
-//           false,
-//           false,
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[3],
-//           "New York Tom Doherty Associates, 2016.",
-//           false,
-//           "Available",
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[3],
-//           "New York Tom Doherty Associates, 2016.",
-//           false,
-//           "Available",
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[3],
-//           "New York Tom Doherty Associates, 2016.",
-//           false,
-//           "Available",
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[4],
-//           "New York, NY Tom Doherty Associates, LLC, 2015.",
-//           false,
-//           "Available",
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[4],
-//           "New York, NY Tom Doherty Associates, LLC, 2015.",
-//           false,
-//           "Maintenance",
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(
-//           books[4],
-//           "New York, NY Tom Doherty Associates, LLC, 2015.",
-//           false,
-//           "Loaned",
-//           callback
-//         );
-//       },
-//       function (callback) {
-//         bookInstanceCreate(books[0], "Imprint XXX2", false, false, callback);
-//       },
-//       function (callback) {
-//         bookInstanceCreate(books[1], "Imprint XXX3", false, false, callback);
-//       },
-//     ],
-//     // Optional callback
-//     cb
-//   );
-// }
+// name: { type: String, required: true },
+// description: { type: String, required: true },
 
 async.series(
   [createGenres, createItems],
@@ -262,10 +160,9 @@ async.series(
   function (err, results) {
     if (err) {
       console.log("FINAL ERR: " + err);
+    } else {
+      console.log("succeeded");
     }
-    // else {
-    //   console.log("BOOKInstances: ");
-    // }
     // All done, disconnect from database
     mongoose.connection.close();
   }

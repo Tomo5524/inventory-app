@@ -1,16 +1,29 @@
 var Item = require("../models/item");
+var Genre = require("../models/genre");
+var async = require("async");
 
 exports.index = function (req, res) {
-  Item.find().exec(function (err, items) {
-    if (err) {
-      return next(err);
-    }
-    // Successful, so render
-    // res.render("index", { title: "All the items", items });
-    res.status(200).json(items);
-  });
-  // res.render("index", { title: "Shop", error: err, data: results });
-  // res.send("NOT IMPLEMENTED: Site Home Page");
+  async.parallel(
+    // Item.find().exec(function (err, items) {
+    //   if (err) {
+    //     return next(err);
+    //   }
+    //   // Successful, so render
+    //   // res.render("index", { title: "All the items", items });
+    //   res.status(200).json(items);
+    // }),
+
+    Genre.find().exec(function (err, genre) {
+      if (err) {
+        return next(err);
+      }
+      // Successful, so render
+      // res.render("index", { title: "All the items", items });
+      res.status(200).json(genre);
+    })
+    // res.render("index", { title: "Shop", error: err, data: results });
+    // res.send("NOT IMPLEMENTED: Site Home Page");
+  );
 };
 
 // Display list of all Authors.

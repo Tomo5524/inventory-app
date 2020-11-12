@@ -6,8 +6,8 @@ const itemSchema = new Schema({
   category: { type: String, required: true, ref: "category" },
   stock: { type: Number, required: true },
   price: { type: Number, required: true },
-  description: { type: String, default: "no description" },
-  imgUrl: { type: String, default: "/images/randomImg.png" },
+  desc: { type: String, default: "" },
+  // imgUrl: { type: String, default: "" },
 });
 
 // this returns the absolute URL required to get a particular instance of the model
