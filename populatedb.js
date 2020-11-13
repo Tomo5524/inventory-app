@@ -37,6 +37,7 @@ function genreCreate(name, desc, cb) {
     }
     console.log("New Genre: " + genre);
     genres.push(genre);
+    // console.log(cb);
     cb(null, genre);
   });
 }
@@ -60,6 +61,7 @@ function itemCreate(brand, category, stock, price, genre, desc, imgUrl, cb) {
     }
     console.log("New item: " + item);
     items.push(item);
+    // console.log(cb);
     cb(null, item);
   });
 }
@@ -101,6 +103,7 @@ function createItems(cb) {
     [
       function (callback) {
         // [genres[1]]
+        // console.log(genres[1].name);
         itemCreate(
           "Air Jorgan Chicago 1985",
           "Sneakers",
@@ -108,6 +111,7 @@ function createItems(cb) {
           65,
           genres[1].name,
           "icon of Air Jordan,",
+          "./images/Air-Jordan-1-OG-Chicago-1985-Product.jpg",
           callback
         );
       },
@@ -120,6 +124,7 @@ function createItems(cb) {
           200,
           genres[0].name,
           "Best Ear puds for workout",
+          "./images/71qeTRmEfrL._AC_SL1500_.jpg",
           callback
         );
       },
@@ -132,6 +137,7 @@ function createItems(cb) {
           20,
           genres[2].name,
           "game changer",
+          "./images/518TWTLsAyL.jpg",
           callback
         );
       },

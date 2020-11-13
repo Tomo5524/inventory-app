@@ -1,8 +1,26 @@
-
-<h1><%= title %></h1>
-<div class='container'>
-    <div>item box1</div>
-    <div>item box2</div>
-    <div>item box3</div>
-    <div>item box4</div>
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>    
+    <link rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous"></script>
+    <link rel='stylesheet', href='/stylesheets/style.css'/> 
+  </head>
+  <body>
+    <h1><%= title %></h1>
+        <div>
+            <% items.forEach(res =>{ %> 
+                <div>
+                    <li class="list-group-item"> 
+                    <h4><%= res.brand %> </h4>
+                    <h6><%= res.stock %></h6>
+                    <p><%= res.price %></p>  
+                    <p><%= res.imgUrl %></p>  
+                    <img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200">        
+                    </li>
+                </div>
+            <% }); %> 
+        </div>
+  </body>
+</html>

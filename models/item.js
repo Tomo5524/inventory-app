@@ -7,7 +7,7 @@ const itemSchema = new Schema({
   stock: { type: Number, required: true },
   price: { type: Number, required: true },
   desc: { type: String, default: "" },
-  // imgUrl: { type: String, default: "" },
+  imgUrl: { type: String, default: "" },
 });
 
 // this returns the absolute URL required to get a particular instance of the model

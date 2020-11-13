@@ -35,6 +35,8 @@ router.get("/item/:id", item_controller.item_detail);
 router.get("/items", item_controller.item_list);
 
 /// GENRE ROUTES ///
+// GET request for list of all Genre.
+router.get("/genres", genre_controller.genre_list);
 
 // GET request for creating a Genre. NOTE This must come before route that displays Genre (uses id).
 router.get("/genre/create", genre_controller.genre_create_get);
@@ -56,8 +58,5 @@ router.post("/genre/:id/update", genre_controller.genre_update_post);
 
 // GET request for one Genre.
 router.get("/genre/:id", genre_controller.genre_detail);
-
-// GET request for list of all Genre.
-router.get("/genres", genre_controller.genre_list);
 
 module.exports = router;

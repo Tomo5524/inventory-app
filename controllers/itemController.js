@@ -2,33 +2,42 @@ var Item = require("../models/item");
 var Genre = require("../models/genre");
 var async = require("async");
 
+// http://localhost:3000/catalog/item/:id/delete
 exports.index = function (req, res) {
-  async.parallel(
-    // Item.find().exec(function (err, items) {
-    //   if (err) {
-    //     return next(err);
-    //   }
-    //   // Successful, so render
-    //   // res.render("index", { title: "All the items", items });
-    //   res.status(200).json(items);
-    // }),
+  // res.render("index", { title: "All the items" });
+  Item.find().exec(function (err, items) {
+    if (err) {
+      return next(err);
+    }
+    // Successful, so render
+    res.render("index", { title: "All the items", items });
+    // res.status(200).json(items);
+  });
 
-    Genre.find().exec(function (err, genre) {
-      if (err) {
-        return next(err);
-      }
-      // Successful, so render
-      // res.render("index", { title: "All the items", items });
-      res.status(200).json(genre);
-    })
-    // res.render("index", { title: "Shop", error: err, data: results });
-    // res.send("NOT IMPLEMENTED: Site Home Page");
-  );
+  //   // Genre.find().exec(function (err, genre) {
+  //   //   if (err) {
+  //   //     return next(err);
+  //   //   }
+  //   //   // Successful, so render
+  //   //   res.render("index", { title: "All the items", items });
+  //   //   res.status(200).json(genre);
+  //   // }
+  //   res.render("index", { title: "Shop", error: err, data: results });
+  //   // res.send("NOT IMPLEMENTED: Site Home Page");
+  // );
 };
 
 // Display list of all Authors.
 exports.item_list = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author list");
+  Item.find().exec(function (err, items) {
+    if (err) {
+      return next(err);
+    }
+    // Successful, so render
+    // console.log(items);
+    res.render("shop", { title: "All the items", items });
+    // res.status(200).json(items);
+  });
 };
 
 // Display detail page for a specific Author.
@@ -53,7 +62,16 @@ exports.item_delete_get = function (req, res) {
 
 // Handle Author delete on POST.
 exports.item_delete_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author delete POST");
+  console.log(req.params.id);
+  const id = req.params.id;
+  // _id is auto populated when new item is created
+  Item.remove({ _id: id })
+    .exec()
+    .then((result) => {
+      res.status(200).json(result);
+      console.log(result);
+    })
+    .catch((err) => res.status(404).json(err));
 };
 
 // Display Author update form on GET.
