@@ -13,7 +13,7 @@ const itemSchema = new Schema({
 // this returns the absolute URL required to get a particular instance of the model
 // so we can get id when clicking a particular item
 itemSchema.virtual("url").get(function () {
-  return `/shop/items/${this._id}`;
+  return `/catalog/items/${this._id}`;
 });
 
 module.exports = mongoose.model("item", itemSchema);

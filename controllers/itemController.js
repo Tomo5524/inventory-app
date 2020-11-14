@@ -1,5 +1,4 @@
 var Item = require("../models/item");
-var Genre = require("../models/genre");
 var async = require("async");
 
 // http://localhost:3000/catalog/item/:id/delete
@@ -35,7 +34,7 @@ exports.item_list = function (req, res) {
     }
     // Successful, so render
     // console.log(items);
-    res.render("shop", { title: "All the items", items });
+    res.render("items", { title: "All the items", items });
     // res.status(200).json(items);
   });
 };
