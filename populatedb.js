@@ -1,7 +1,7 @@
 #! /usr/bin/env node
-// add data here
 
 console.log("This script populates some test ");
+// add data here
 
 // Get arguments passed on command line
 var userArgs = process.argv.slice(2);
@@ -111,7 +111,7 @@ function createItems(cb) {
           65,
           genres[1].name,
           "icon of Air Jordan,",
-          "./images/Air-Jordan-1-OG-Chicago-1985-Product.jpg",
+          "/images/Air-Jordan-1-OG-Chicago-1985-Product.jpg",
           callback
         );
       },
@@ -124,7 +124,7 @@ function createItems(cb) {
           200,
           genres[0].name,
           "Best Ear puds for workout",
-          "./images/71qeTRmEfrL._AC_SL1500_.jpg",
+          "/images/71qeTRmEfrL._AC_SL1500_.jpg", // right path
           callback
         );
       },
@@ -137,7 +137,7 @@ function createItems(cb) {
           20,
           genres[2].name,
           "game changer",
-          "./images/518TWTLsAyL.jpg",
+          "/images/518TWTLsAyL.jpg",
           callback
         );
       },

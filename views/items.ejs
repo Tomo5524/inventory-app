@@ -8,16 +8,17 @@
     <link rel='stylesheet', href='/stylesheets/style.css'/> 
   </head>
   <body>
+    <%- include nav.ejs %>
     <h1><%= title %></h1>
         <div>
             <% items.forEach(res =>{ %> 
-                <div>
+                <div>                  
                     <li class="list-group-item"> 
-                    <h4><%= res.brand %> </h4>
-                    <h6><%= res.stock %></h6>
-                    <p><%= res.price %></p>  
-                    <p><%= res.imgUrl %></p>  
-                    <img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200">        
+                      <h4><%= res.brand %> </h4>
+                      <h6><%= res.stock %></h6>
+                      <p><%= res.price %></p>  
+                      <!-- <p><%= res.imgUrl %></p>   -->
+                      <img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200">        
                     </li>
                 </div>
             <% }); %> 

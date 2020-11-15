@@ -1,41 +1,38 @@
 var Item = require("../models/item");
+var Genre = require("../models/genre");
 var async = require("async");
 
 // http://localhost:3000/catalog/item/:id/delete
 exports.index = function (req, res) {
-  // res.render("index", { title: "All the items" });
-  Item.find().exec(function (err, items) {
-    if (err) {
-      return next(err);
+  async.parallel(
+    {
+      item_count: function (callback) {
+        Item.countDocuments({}, callback); // Pass an empty object as match condition to find all documents of this collection
+      },
+      genre_count: function (callback) {
+        Genre.countDocuments({}, callback);
+      },
+    },
+    function (err, results) {
+      res.render("index", {
+        title: "The biggest e-commerce in our village",
+        error: err,
+        data: results,
+      });
     }
-    // Successful, so render
-    res.render("index", { title: "All the items", items });
-    // res.status(200).json(items);
-  });
-
-  //   // Genre.find().exec(function (err, genre) {
-  //   //   if (err) {
-  //   //     return next(err);
-  //   //   }
-  //   //   // Successful, so render
-  //   //   res.render("index", { title: "All the items", items });
-  //   //   res.status(200).json(genre);
-  //   // }
-  //   res.render("index", { title: "Shop", error: err, data: results });
-  //   // res.send("NOT IMPLEMENTED: Site Home Page");
-  // );
+  );
 };
 
-// Display list of all Authors.
+// Display list of all items.
 exports.item_list = function (req, res) {
   Item.find().exec(function (err, items) {
     if (err) {
       return next(err);
     }
     // Successful, so render
-    // console.log(items);
+    // console.log(each_item);
     res.render("items", { title: "All the items", items });
-    // res.status(200).json(items);
+    // res.status(200).json(each_item);
   });
 };
 
