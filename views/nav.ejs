@@ -16,13 +16,14 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="catalog">Home<span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/catalog">Home<span class="sr-only">(current)</span></a>
             </li>            
             <li class="nav-item">
-              <a class="nav-link" href="items">All Items</a>
+              <!-- if I only have 'catalog/items', when navigating from items to genres, genres link will be catalog/catalog/genres, which causes error. -->
+              <a class="nav-link" href="/catalog/items">All Items</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="genres">Categories</a>
+              <a class="nav-link" href="/catalog/genres">Categories</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Pricing</a>

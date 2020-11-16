@@ -2,13 +2,13 @@ var Genre = require("../models/genre");
 
 // Display list of all Genre.
 exports.genre_list = function (req, res) {
-  Genre.find().exec(function (err, genres) {
+  Genre.find().exec(function (err, categories) {
     if (err) {
       return next(err);
     }
     // Successful, so render
-    // res.render("genres", { title: "All the genres", genres });
-    res.status(200).json(genres);
+    res.render("category", { title: "All the categories", categories });
+    // res.status(200).json(genres);
   });
 };
 

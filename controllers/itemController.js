@@ -38,7 +38,24 @@ exports.item_list = function (req, res) {
 
 // Display detail page for a specific Author.
 exports.item_detail = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author detail: " + req.params.id);
+  // console.log("hiya");
+  // res.send("NOT IMPLEMENTED: Author detail: " + req.params.id);
+  Item.findById(req.params.id).exec(function (err, result) {
+    if (err) {
+      return next(err);
+    }
+    if (result == null) {
+      // No results.
+      var err = new Error("Item not found");
+      err.status = 404;
+      return next(err);
+    }
+    // Successful, so render.
+    res.render("item_detail", {
+      // title: result.brand,
+      result,
+    });
+  });
 };
 
 // Display Author create form on GET.
