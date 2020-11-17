@@ -110,7 +110,7 @@ function createItems(cb) {
           3,
           65,
           genres[1].name,
-          "icon of Air Jordan,",
+          "icon of Air Jordans",
           "/images/Air-Jordan-1-OG-Chicago-1985-Product.jpg",
           callback
         );

@@ -9,19 +9,27 @@
   </head>
   <body>
     <%- include nav.ejs %>
-    <div class="py-3">
-      <h1><%= title %></h1>
-        <div class="py-3 d-flex flex-wrap">
+    <div class="container py-3">
+        <div class="d-flex justify-content-between">
+          <h1><%= title %></h1>                               
+          <button class="big-button" onclick="location.href = '/catalog/item/create'">Add item</button>                    
+        </div>     
+        <div class="py-3 my-3 d-flex flex-wrap">
             <% items.forEach(res =>{ %> 
-              <figure>
-                <!-- res.url denotes id  -->
-                <a href="<%= res.url %>"><img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200"></a>                      
-            </figure>  
-            <a href="<%= res.url %>"><h4><%= res.brand %> </h4></a>            
-            <h6><%= res.stock %></h6>
-            <p><%= res.price %></p>  
-              <!-- <p><%= res.imgUrl %></p>   -->
-              <!-- <img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200">         -->                                       
+              <div class="flex-grow-1">
+                <figure>
+                  <!-- res.url denotes id  -->
+                  <a href="<%= res.url %>"><img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200"></a>                      
+                </figure>  
+                <div class="px-2">
+                  <a class="text-dark" href="<%= res.url %>"><h5><%= res.brand %> </h5></a>            
+                  <h6>Stock: <%= res.stock %></h6>
+                  <p>Price: <%= res.price %></p>  
+                  <!-- <p><%= res.imgUrl %></p>   -->
+                  <!-- <img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200">         -->   
+                </div> 
+              </div>
+                                                               
             <% }); %> 
         </div>
     </div>    
