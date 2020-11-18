@@ -1,5 +1,7 @@
 var express = require("express");
 var router = express.Router();
+var multer = require("multer");
+var upload = multer();
 
 // Require controller modules.
 var genre_controller = require("../controllers/genreController");

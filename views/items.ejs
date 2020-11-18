@@ -11,8 +11,8 @@
     <%- include nav.ejs %>
     <div class="container py-3">
         <div class="d-flex justify-content-between">
-          <h1><%= title %></h1>                               
-          <button class="big-button" onclick="location.href = '/catalog/item/create'">Add item</button>                    
+          <h1><%= title %></h1>  
+          <a href='/catalog/item/create'><button class="big-button">Add item</button></a>                                                  
         </div>     
         <div class="py-3 my-3 d-flex flex-wrap">
             <% items.forEach(res =>{ %> 
@@ -28,8 +28,7 @@
                   <!-- <p><%= res.imgUrl %></p>   -->
                   <!-- <img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200">         -->   
                 </div> 
-              </div>
-                                                               
+              </div>                                                               
             <% }); %> 
         </div>
     </div>    
