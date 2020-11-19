@@ -1,7 +1,26 @@
 var express = require("express");
 var router = express.Router();
-var multer = require("multer");
-var upload = multer();
+const path = require("path");
+const multer = require("multer"); //
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/images");
+  },
+  filename: function (req, file, cb) {
+    // console.log(
+    //   file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    // ); // returns image-1605776509358.jpg
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 10000000 },
+}).single("image");
 
 // Require controller modules.
 var genre_controller = require("../controllers/genreController");
@@ -16,7 +35,7 @@ router.get("/", item_controller.index);
 router.get("/item/create", item_controller.item_create_get);
 
 // POST request for creating Book.
-router.post("/item/create", item_controller.item_create_post);
+router.post("/item/create", upload, item_controller.item_create_post);
 
 // GET request to delete Book.
 router.get("/item/:id/delete", item_controller.item_delete_get);

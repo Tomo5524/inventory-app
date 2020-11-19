@@ -1,11 +1,26 @@
 var Item = require("../models/item");
 var Genre = require("../models/genre");
 var async = require("async");
-var multer = require("multer");
-var upload = multer();
 const { body, validationResult } = require("express-validator");
 
+// const multer = require("multer");
+// const storage = multer.diskStorage({
+//   destination: "./public/images",
+//   filename: function (req, file, cb) {
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
+
+// const upload = multer({
+//   storage,
+//   limits: { fileSize: 10000000 },
+// }).single("image");
+
 // http://localhost:3000/catalog/item/:id/delete
+
 exports.index = function (req, res) {
   async.parallel(
     {
@@ -33,9 +48,9 @@ exports.item_list = function (req, res) {
       return next(err);
     }
     // Successful, so render
-    // console.log(each_item);
+    // console.log(items);
     res.render("items", { title: "All the items", items });
-    // res.status(200).json(each_item);
+    // res.status(200).json(items);
   });
 };
 
@@ -78,59 +93,82 @@ exports.item_create_get = function (req, res) {
 };
 
 // Handle Author create on POST.
-// exports.item_create_post = function (req, res) {
-//   res.send("NOT IMPLEMENTED: Author create POST");
+// exports.item_create_post = function (req, res, next) {
+//   res.json(req.body);
+//   // set validation, save new item, and store image
+//   // has to upload file to get path
+//   // console.log(req.file.path, "hiyaaaaa"); // returns public\images\image-1605778522433.jpg
+// console.log(req.file.filename, "hiyaaaaa");
 // };
 
-// Handle Author create on POST.
-exports.item_create_post = function (req, res, next) {
-  console.log("hiya");
-  res.json(req.body);
-};
-// exports.item_create_post = [
-//   // Validate and santise the name field.
-//   body("name", "Genre name required").trim().isLength({ min: 1 }).escape(),
+exports.item_create_post = [
+  // Validate and santise the name field.
+  body("brand", "Name must be between 5 and 30 characters")
+    .isLength({ min: 1, max: 30 })
+    .escape(),
+  body("price", "Price must be higher than 0")
+    .custom((value, { req }) => value > 0)
+    .isNumeric()
+    .escape(),
+  body("stock", "Stock must be a positive number")
+    .custom((value, { req }) => value > 0)
+    .isNumeric()
+    .escape(),
 
-//   // Process request after validation and sanitization.
-//   (req, res, next) => {
-//     // Extract the validation errors from a request.
-//     const errors = validationResult(req);
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // console.log(req.body.brand, "req.body");
+    // console.log(req.body.category, "req.body.category"); // 5fb06dddcc3e521c282ce22a req.body.category
 
-//     // Create a genre object with escaped and trimmed data.
-//     var genre = new Genre({ name: req.body.name });
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
 
-//     if (!errors.isEmpty()) {
-//       // There are errors. Render the form again with sanitized values/error messages.
-//       res.render("genre_form", {
-//         title: "Create Genre",
-//         genre: genre,
-//         errors: errors.array(),
-//       });
-//       return;
-//     } else {
-//       // Data from form is valid.
-//       // Check if Genre with same name already exists.
-//       Genre.findOne({ name: req.body.name }).exec(function (err, found_genre) {
-//         if (err) {
-//           return next(err);
-//         }
+    // Create a genre object with escaped and trimmed data.
+    console.log(req.file.filename, "req.file.filename"); // image-1605787075046.jpg req.file.filename
 
-//         if (found_genre) {
-//           // Genre exists, redirect to its detail page.
-//           res.redirect(found_genre.url);
-//         } else {
-//           genre.save(function (err) {
-//             if (err) {
-//               return next(err);
-//             }
-//             // Genre saved. Redirect to genre detail page.
-//             res.redirect(genre.url);
-//           });
-//         }
-//       });
-//     }
-//   },
-// ];
+    const filename = req.file
+      ? `/images/${req.file.filename}`
+      : "https://via.placeholder.com/300x200.jpg/f1f5f4/516f4e/?text=Product+Doesn%27t+Have+An+Image+Yet";
+    // console.log(req.body, "req.body");
+    var item = new Item({
+      brand: req.body.brand,
+      genre: req.body.genre,
+      stock: req.body.stock,
+      price: req.body.price,
+      imgUrl: filename,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render("item_form", {
+        title: "Add Item",
+        item: item,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form is valid.
+      // Check if Genre with same name already exists.
+      Item.findOne({ brand: req.body.brand }).exec(function (err, found_item) {
+        if (err) {
+          return next(err);
+        }
+        if (found_item) {
+          // Genre exists, redirect to its detail page.
+          res.redirect(found_item.url);
+        } else {
+          item.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+            // Genre saved. Redirect to genre detail page.
+            res.redirect(item.url);
+          });
+        }
+      });
+    }
+  },
+];
 
 // Display Author delete form on GET.
 exports.item_delete_get = function (req, res) {

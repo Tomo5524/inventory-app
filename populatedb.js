@@ -42,15 +42,14 @@ function genreCreate(name, desc, cb) {
   });
 }
 
-function itemCreate(brand, category, stock, price, genre, desc, imgUrl, cb) {
+function itemCreate(brand, genre, stock, price, desc, imgUrl, cb) {
   var itemdetail = {
     brand: brand,
-    category: category,
+    genre: genre,
     stock: stock,
     price: price,
   };
   if (desc) itemdetail.desc = desc;
-  if (genre) itemdetail.genre = genre;
   if (imgUrl) itemdetail.imgUrl = imgUrl;
 
   var item = new Item(itemdetail);
@@ -106,10 +105,9 @@ function createItems(cb) {
         // console.log(genres[1].name);
         itemCreate(
           "Air Jorgan Chicago 1985",
-          "Sneakers",
+          genres[1].name,
           3,
           65,
-          genres[1].name,
           "icon of Air Jordans",
           "/images/Air-Jordan-1-OG-Chicago-1985-Product.jpg",
           callback
@@ -119,10 +117,9 @@ function createItems(cb) {
         // [genres[0]]
         itemCreate(
           "Jabra 75T active",
-          "Ear puds",
+          genres[0].name,
           1,
           200,
-          genres[0].name,
           "Best Ear puds for workout",
           "/images/71qeTRmEfrL._AC_SL1500_.jpg", // right path
           callback
@@ -132,10 +129,9 @@ function createItems(cb) {
         // [genres[2]]
         itemCreate(
           "Can't hurt me",
-          "Biography",
+          genres[2].name,
           1,
           20,
-          genres[2].name,
           "game changer",
           "/images/518TWTLsAyL.jpg",
           callback
