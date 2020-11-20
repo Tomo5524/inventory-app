@@ -9,17 +9,23 @@
   </head>
   <body>
     <%- include nav.ejs %>
-    <div class="py-3 d-flex justify-content-center">             
+    <div class="d-flex justify-content-center">
+      <div class="py-3">             
         <figure>
         <!-- res.url denotes id  -->
-        <a href="<%= result.url %>"><img src="<%= result.imgUrl %>" alt="Can't display" width="200" height="200"></a>                      
+        <img src="<%= result.imgUrl %>" alt="Can't display" width="200" height="200">                
         </figure>  
         <div>          
           <h4><%= result.brand %> </h4>
           <h5><%= result.desc %></h5>      
           <h6>Stock: <%= result.stock %></h6>
           <p>Price: <%= result.price %></p>           
-        </div>        
+        </div>   
+        <div class="d-flex justify-content-between">
+          <a href="<%= result.url %>/update"><button class="btn btn-success">Update </button></a> 
+          <a href="<%= result.url %>/delete"><button class="btn btn-danger">Delete </button></a> 
+        </div>     
+      </div>      
     </div>    
   </body>
 </html>

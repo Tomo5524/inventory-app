@@ -25,8 +25,9 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 var items = [];
 var genres = [];
 
-function genreCreate(name, desc, cb) {
+function genreCreate(name, desc, imgUrl, cb) {
   var genre = new Genre({ name: name, desc: desc });
+  if (imgUrl) genre.imgUrl = imgUrl;
 
   // if (desc != false) genre.desc = desc;
 
@@ -74,6 +75,7 @@ function createGenres(cb) {
         genreCreate(
           "Electronics",
           "Shop for the best selection of electronics at Every Day Low Prices. Save Money, Live Better.",
+          "/images/dealmaster091919-800x444.png",
           callback
         );
       },
@@ -81,6 +83,7 @@ function createGenres(cb) {
         genreCreate(
           "Footwear",
           "Deals up to 75% off along with FREE Shipping on shoes, boots, sneakers, and sandals",
+          "/images/download.jpg",
           callback
         );
       },
@@ -88,6 +91,7 @@ function createGenres(cb) {
         genreCreate(
           "Books",
           "Looking for good books to read? This reading list shares the best books of all-time organized by category",
+          "/images/06critics-list1-facebookJumbo.jpg",
           callback
         );
       },
@@ -105,7 +109,8 @@ function createItems(cb) {
         // console.log(genres[1].name);
         itemCreate(
           "Air Jorgan Chicago 1985",
-          genres[1].name,
+          // the reason why this is nested is that geners [1] is object
+          [genres[1]],
           3,
           65,
           "icon of Air Jordans",
@@ -117,7 +122,7 @@ function createItems(cb) {
         // [genres[0]]
         itemCreate(
           "Jabra 75T active",
-          genres[0].name,
+          [genres[0]],
           1,
           200,
           "Best Ear puds for workout",
@@ -129,7 +134,7 @@ function createItems(cb) {
         // [genres[2]]
         itemCreate(
           "Can't hurt me",
-          genres[2].name,
+          [genres[2]],
           1,
           20,
           "game changer",

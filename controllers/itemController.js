@@ -3,22 +3,6 @@ var Genre = require("../models/genre");
 var async = require("async");
 const { body, validationResult } = require("express-validator");
 
-// const multer = require("multer");
-// const storage = multer.diskStorage({
-//   destination: "./public/images",
-//   filename: function (req, file, cb) {
-//     cb(
-//       null,
-//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-//     );
-//   },
-// });
-
-// const upload = multer({
-//   storage,
-//   limits: { fileSize: 10000000 },
-// }).single("image");
-
 // http://localhost:3000/catalog/item/:id/delete
 
 exports.index = function (req, res) {
@@ -42,7 +26,7 @@ exports.index = function (req, res) {
 };
 
 // Display list of all items.
-exports.item_list = function (req, res) {
+exports.item_list = function (req, res, next) {
   Item.find().exec(function (err, items) {
     if (err) {
       return next(err);
@@ -55,7 +39,7 @@ exports.item_list = function (req, res) {
 };
 
 // Display detail page for a specific Author.
-exports.item_detail = function (req, res) {
+exports.item_detail = function (req, res, next) {
   // console.log("hiya");
   // res.send("NOT IMPLEMENTED: Author detail: " + req.params.id);
   Item.findById(req.params.id).exec(function (err, result) {
@@ -73,6 +57,8 @@ exports.item_detail = function (req, res) {
     res.render("item_detail", {
       title: result.brand,
       result,
+      // UpdateUrl: `/catalog/item/${result.id}/update`,
+      // DeleteUrl: `/catalog/item/${result.id}/delete`,
     });
   });
 };
@@ -126,12 +112,14 @@ exports.item_create_post = [
     // Create a genre object with escaped and trimmed data.
     console.log(req.file.filename, "req.file.filename"); // image-1605787075046.jpg req.file.filename
 
+    // if there is no corresponding image, gets error
     const filename = req.file
       ? `/images/${req.file.filename}`
       : "https://via.placeholder.com/300x200.jpg/f1f5f4/516f4e/?text=Product+Doesn%27t+Have+An+Image+Yet";
     // console.log(req.body, "req.body");
     var item = new Item({
       brand: req.body.brand,
+      desc: req.body.desc,
       genre: req.body.genre,
       stock: req.body.stock,
       price: req.body.price,
@@ -172,21 +160,47 @@ exports.item_create_post = [
 
 // Display Author delete form on GET.
 exports.item_delete_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author delete GET");
+  // res.send("NOT IMPLEMENTED: Author delete GET");
+  Item.findById(req.params.id).exec(function (err, result) {
+    if (err) {
+      return next(err);
+    }
+    if (result == null) {
+      // No results.
+      var err = new Error("Item not found");
+      err.status = 404;
+      return next(err);
+    }
+    // Successful, so render.
+    console.log(result);
+    res.render("item_delete", {
+      title: result.brand,
+      result,
+    });
+  });
 };
 
 // Handle Author delete on POST.
 exports.item_delete_post = function (req, res) {
-  console.log(req.params.id);
-  const id = req.params.id;
-  // _id is auto populated when new item is created
-  Item.remove({ _id: id })
-    .exec()
-    .then((result) => {
-      res.status(200).json(result);
-      console.log(result);
-    })
-    .catch((err) => res.status(404).json(err));
+  Item.findById(req.params.id).exec(function (err, result) {
+    if (err) {
+      return next(err);
+    }
+    if (result == null) {
+      // No results.
+      var err = new Error("Item not found");
+      err.status = 404;
+      return next(err);
+    }
+    // Successful, so render.
+    Item.findByIdAndRemove(req.params.id, function ItemAuthor(err) {
+      if (err) {
+        return next(err);
+      }
+      // Success - go to author list
+      res.redirect("/catalog/items");
+    });
+  });
 };
 
 // Display Author update form on GET.

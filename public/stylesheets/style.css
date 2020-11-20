@@ -92,3 +92,9 @@ a {
 
   box-shadow: 0 0 0 2px var(--colorShadeB), 0 0.25em 0 0 var(--colorShadeB);
 }
+
+/* utility */
+.b-radius {
+  border: 1px solid #333;
+  border-radius: 10px;
+}

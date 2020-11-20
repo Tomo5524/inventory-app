@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const itemSchema = new Schema({
   brand: { type: String, required: true },
-  genre: { type: String, required: true, ref: "genre" },
+  genre: [{ type: Schema.Types.ObjectId, ref: "Genre" }], // right
   stock: { type: Number, required: true },
   price: { type: Number, required: true },
   desc: { type: String, default: "" },

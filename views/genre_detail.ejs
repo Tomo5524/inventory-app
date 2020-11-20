@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>    
+    <title><%= genre %></title>    
     <link rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous"></script>
@@ -9,25 +9,22 @@
   </head>
   <body>
     <%- include nav.ejs %>
-    <div class="container py-3">
-        <div class="d-flex justify-content-between">
-          <h1><%= title %></h1>  
-          <a href='/catalog/genre/create'><button class="big-button">Add Category</button></a>                                                  
-        </div> 
+    <div class="container py-3">        
         <div class="py-3 my-3 d-flex flex-wrap">
-            <% categories.forEach(res =>{ %> 
-              <div class="flex-grow-1 b-radius">
-                <figure>                 
+            <% item_list.forEach(res =>{ %> 
+              <div class="flex-grow-1">
+                <figure>
+                  <!-- res.url denotes id  -->
                   <a href="<%= res.url %>"><img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200"></a>                      
-                </figure> 
+                </figure>  
                 <div class="px-2">
-                  <a class="text-dark" href="<%= res.url %>"><h5><%= res.name %> </h5></a> 
-                  <p><%= res.desc %></p>                  
+                  <a class="text-dark" href="<%= res.url %>"><h5><%= res.brand %> </h5></a>            
+                  <h6>Stock: <%= res.stock %></h6>
+                  <p>Price: <%= res.price %></p>                      
                 </div> 
-              </div>                                  
-            <% }); %>         
+              </div>                                                               
+            <% }); %> 
         </div>
-    </div>
-
+    </div>    
   </body>
 </html>
