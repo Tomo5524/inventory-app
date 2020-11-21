@@ -11,7 +11,7 @@
     <%- include nav.ejs %>
     <div class="d-flex justify-content-center"> 
         <div class="py-3">
-            <h4>Are you sure you want to delete <strong><%= result.brand %></strong></h4>              
+            <h4>Are you sure you want to delete <strong><%= title %></strong></h4>              
             <figure class="text-center">
             <!-- res.url denotes id  -->
             <img src="<%= result.imgUrl %>" alt="Can't display" width="200" height="200">                     
@@ -24,7 +24,7 @@
                 <form action="" method="POST">
                     <button type="submit" class="btn btn-primary" >Yes</button>                      
                 </form>
-                <a href="<%= result.url %>"><button type="submit" class="btn btn-primary mx-3">No</button></a>                
+                <a href="/catalog/genres"><button class="btn btn-primary mx-3">No</button></a>                   
             </div>            
         </div>        
     </div>    

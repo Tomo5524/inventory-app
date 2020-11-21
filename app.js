@@ -1,5 +1,4 @@
 // DEBUG=inventory-app:* npm run devstart
-// category post
 
 var createError = require("http-errors");
 var express = require("express");

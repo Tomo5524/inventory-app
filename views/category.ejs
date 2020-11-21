@@ -24,6 +24,10 @@
                   <a class="text-dark" href="<%= res.url %>"><h5><%= res.name %> </h5></a> 
                   <p><%= res.desc %></p>                  
                 </div> 
+                <div class="d-flex mb-2">
+                  <a href="<%= res.url %>/update"><button class="btn btn-success">Update </button></a> 
+                  <a href="<%= res.url %>/delete"><button class="btn btn-danger mx-3">Delete </button></a> 
+                </div>  
               </div>                                  
             <% }); %>         
         </div>

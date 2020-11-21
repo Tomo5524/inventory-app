@@ -10,22 +10,22 @@
   <body>
     <%- include nav.ejs %>
     <div class="container my-3">
-        <h3><%= title %></h3>
+        <h3>Update <strong><%= title %></strong></h3>        
         <form action="" method="POST" enctype="multipart/form-data">    
             <div class="form-group">
                 <label for="category">Category: </label>
-                <input type="text" class="form-control" name="category" required minlength="1" placeholder="Enter category">
+                <input type="text" class="form-control" name="category" value="<%= result.name %>" required minlength="1" placeholder="Enter category">
             </div>
             <div class="form-group">
                 <label for="desc">Description: </label>
-                <textarea class="form-control" name="desc" placeholder="Enter description"></textarea>    
+                <textarea class="form-control" name="desc" placeholder="Enter description"><%= result.desc %></textarea>    
             </div>                   
             <div class="mb-3 d-block">
                 <label for="image">Image: </label>
                 <input type="file" name="image">                
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>            
-        </form>
+        </form>              
     </div>
       
   </body>

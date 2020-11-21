@@ -13,19 +13,33 @@
         <h3><%= title %></h3>
         <form action="" method="POST" enctype="multipart/form-data">    
             <div class="form-group">
-                <label for="category">Category: </label>
-                <input type="text" class="form-control" name="category" required minlength="1" placeholder="Enter category">
+                <label for="brand">Name: </label>
+                <input type="text" class="form-control" name="brand" value="<%= result.brand %>" required minlength="1" placeholder="Enter name">
             </div>
             <div class="form-group">
                 <label for="desc">Description: </label>
-                <textarea class="form-control" name="desc" placeholder="Enter description"></textarea>    
-            </div>                   
+                <textarea class="form-control" name="desc" placeholder="Enter description"><%= result.desc %></textarea>    
+            </div>
+            <div class="form-group">
+                <label for="genre">Category: </label>
+                <select name="genre" value="<%= result._id %>" class="form-control">
+                    <% genres.forEach(res =>{ %> 
+                        <option value="<%= res._id %>"><%= res.name %></option>                     
+                      <% }); %>                     
+                </select>    
+            </div>            
+            <div class="d-flex mb-3">
+              <label for="price">Price: </label>
+              <input type="number" class="mx-3" name="price" value="<%= result.price %>"  required min="1">
+              <label for="stock">Stock: </label>
+              <input type="number" value="<%= result.stock %>" class="mx-3" name="stock" required min="1">
+            </div>                                                                           
             <div class="mb-3 d-block">
                 <label for="image">Image: </label>
                 <input type="file" name="image">                
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>            
-        </form>
+          </form>
     </div>
       
   </body>

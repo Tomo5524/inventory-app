@@ -9,22 +9,30 @@
   </head>
   <body>
     <%- include nav.ejs %>
-    <div class="container py-3">        
+    <div class="container py-3">
+      <!-- <p><%= item_list.length %></p>   
+      <p><%= item_list %></p> -->
+      <% if (item_list.length > 0) { %>
         <div class="py-3 my-3 d-flex flex-wrap">
-            <% item_list.forEach(res =>{ %> 
-              <div class="flex-grow-1">
-                <figure>
-                  <!-- res.url denotes id  -->
-                  <a href="<%= res.url %>"><img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200"></a>                      
-                </figure>  
-                <div class="px-2">
-                  <a class="text-dark" href="<%= res.url %>"><h5><%= res.brand %> </h5></a>            
-                  <h6>Stock: <%= res.stock %></h6>
-                  <p>Price: <%= res.price %></p>                      
-                </div> 
-              </div>                                                               
-            <% }); %> 
+          <% item_list.forEach(res =>{ %> 
+            <div class="flex-grow-1">
+              <figure>
+                <!-- res.url denotes id  -->
+                <a href="<%= res.url %>"><img src="<%= res.imgUrl %>" alt="Can't display" width="200" height="200"></a>                      
+              </figure>  
+              <div class="px-2">
+                <a class="text-dark" href="<%= res.url %>"><h5><%= res.brand %> </h5></a>            
+                <h6>Stock: <%= res.stock %></h6>
+                <p>Price: <%= res.price %></p>                      
+              </div> 
+            </div>                                                               
+          <% }); %> 
         </div>
+      <% } else{ %>  
+        <div class="d-flex justify-content-center py-3">          
+          <h3>Currently, No Item in this Catergory 🙏</h3>          
+        </div>
+     <% } %>
     </div>    
   </body>
 </html>

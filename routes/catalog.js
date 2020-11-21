@@ -47,7 +47,7 @@ router.post("/item/:id/delete", item_controller.item_delete_post);
 router.get("/item/:id/update", item_controller.item_update_get);
 
 // POST request to update Book.
-router.post("/item/:id/update", item_controller.item_update_post);
+router.post("/item/:id/update", upload, item_controller.item_update_post);
 
 // GET request for one Book.
 router.get("/item/:id", item_controller.item_detail);
@@ -63,7 +63,7 @@ router.get("/genres", genre_controller.genre_list);
 router.get("/genre/create", genre_controller.genre_create_get);
 
 //POST request for creating Genre.
-router.post("/genre/create", genre_controller.genre_create_post);
+router.post("/genre/create", upload, genre_controller.genre_create_post);
 
 // GET request to delete Genre.
 router.get("/genre/:id/delete", genre_controller.genre_delete_get);
@@ -75,7 +75,7 @@ router.post("/genre/:id/delete", genre_controller.genre_delete_post);
 router.get("/genre/:id/update", genre_controller.genre_update_get);
 
 // POST request to update Genre.
-router.post("/genre/:id/update", genre_controller.genre_update_post);
+router.post("/genre/:id/update", upload, genre_controller.genre_update_post);
 
 // GET request for one Genre.
 router.get("/genre/:id", genre_controller.genre_detail);
