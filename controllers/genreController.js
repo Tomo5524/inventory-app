@@ -143,27 +143,67 @@ exports.genre_delete_get = function (req, res) {
 };
 
 // Handle Genre delete on POST.
-exports.genre_delete_post = function (req, res) {
-  Genre.findById(req.params.id).exec(function (err, result) {
-    if (err) {
-      return next(err);
-    }
-    if (result == null) {
-      // No results.
-      var err = new Error("Genre not found");
-      err.status = 404;
-      return next(err);
-    }
-    // Successful, so render.
-    Genre.findByIdAndRemove(req.params.id, function ItemAuthor(err) {
-      if (err) {
-        return next(err);
+exports.genre_delete_post = [
+  // Validate and santise the name field.
+  body("password", "Incorrect Password")
+    .custom((value, { req }) => value === process.env.PASSWORD)
+    .escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    async.parallel(
+      {
+        genre: function (callback) {
+          Genre.findById(req.params.id).exec(callback);
+        },
+
+        item_list: function (callback) {
+          Item.find({ genre: req.params.id }).exec(callback);
+        },
+      },
+      function (err, result, next) {
+        // console.log(results, "results///");
+        // console.log(req.body, "req.body///////");
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          // There are errors. Render the form again with sanitized values/error messages.
+          // console.log(req.body, "req.body///////");
+          res.render("genre_delete", {
+            title: result.genre.name,
+            result: result.genre,
+            errors: errors.array()[0].msg,
+          });
+          return;
+        }
+        if (err) {
+          return next(err);
+        }
+        if (result.genre == null) {
+          // No results.
+          var err = new Error("Genre not found");
+          err.status = 404;
+          return next(err);
+        }
+        if (result.item_list.length > 0) {
+          // Author has books. Render in same way as for GET route.
+          res.render("genre_delete", {
+            title: result.genre.name,
+            result: result.genre,
+            ErrMessage: true,
+          });
+          return;
+        }
+        // Successful, so remove gnere and render catalo genre page
+        Genre.findByIdAndRemove(req.params.id, function DeleteGenre(err) {
+          if (err) {
+            return next(err);
+          }
+          res.redirect("/catalog/genres");
+        });
       }
-      // Success - go to author list
-      res.redirect("/catalog/genres");
-    });
-  });
-};
+    );
+  },
+];
 
 // Display Genre update form on GET.
 exports.genre_update_get = function (req, res) {

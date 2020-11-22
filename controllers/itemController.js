@@ -177,7 +177,7 @@ exports.item_delete_get = function (req, res) {
       return next(err);
     }
     // Successful, so render.
-    console.log(result);
+    // console.log(result);
     res.render("item_delete", {
       title: result.brand,
       result,
@@ -186,27 +186,54 @@ exports.item_delete_get = function (req, res) {
 };
 
 // Handle Author delete on POST.
-exports.item_delete_post = function (req, res) {
-  Item.findById(req.params.id).exec(function (err, result) {
-    if (err) {
-      return next(err);
+exports.item_delete_post = [
+  // Validate and santise the name field.
+  body("password", "Incorrect Password")
+    .custom((value, { req }) => value === process.env.PASSWORD)
+    .escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    console.log(req.body, "req.body///////");
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      // console.log(req.body, "req.body///////");
+
+      Item.findById(req.params.id).exec(function (err, result) {
+        if (err) {
+          return next(err);
+        }
+        // console.log("itemfound  ////");
+        // console.log(errors, "errors////");
+        // console.log(errors.errors, "errors////");
+        // console.log(errors.errors[0].msg, "errors"); // return Incorrect Password errors
+        // console.log(typeof errors.errors, "(typeof erros////");
+        // console.log(typeof errors.array()[0].msg, "(typeof erros////");
+        // console.log(errors.errors.length, "errors length////");
+        res.render("item_delete", {
+          title: result.brand,
+          result,
+          errors: errors.array()[0].msg,
+        });
+      });
+      return;
+    } else {
+      // Data from form is valid.
+      // Check if item with same name already exists.
+      // Successful, so render.
+      Item.findByIdAndRemove(req.params.id, function ItemAuthor(err) {
+        if (err) {
+          return next(err);
+        }
+        // Success - go to author list
+        res.redirect("/catalog/items");
+      });
     }
-    if (result == null) {
-      // No results.
-      var err = new Error("Item not found");
-      err.status = 404;
-      return next(err);
-    }
-    // Successful, so render.
-    Item.findByIdAndRemove(req.params.id, function ItemAuthor(err) {
-      if (err) {
-        return next(err);
-      }
-      // Success - go to author list
-      res.redirect("/catalog/items");
-    });
-  });
-};
+  },
+];
 
 // Display Author update form on GET.
 exports.item_update_get = function (req, res, next) {
