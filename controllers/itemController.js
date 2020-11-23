@@ -206,12 +206,13 @@ exports.item_delete_post = [
         if (err) {
           return next(err);
         }
-        // console.log("itemfound  ////");
         // console.log(errors, "errors////");
-        // console.log(errors.errors, "errors////");
+        // console.log(errors.errors, "errors////"); //
         // console.log(errors.errors[0].msg, "errors"); // return Incorrect Password errors
-        // console.log(typeof errors.errors, "(typeof erros////");
-        // console.log(typeof errors.array()[0].msg, "(typeof erros////");
+        // console.log(typeof errors,); // return undefined
+        // console.log(typeof errors.array(),); // return undefined
+        // console.log(typeof errors.errors,); // return undefined
+        // console.log(typeof errors.array()[0].msg,); // return string
         // console.log(errors.errors.length, "errors length////");
         res.render("item_delete", {
           title: result.brand,
